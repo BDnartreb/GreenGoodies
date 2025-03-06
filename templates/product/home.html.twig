@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<main>
+    <div class="home-container">
+        <div class="home-welcome">
+            <div class="home-welcome-text">
+                <div class="home-welcome-title">
+                    <h1>Bienvenue</h1>
+                </div>
+                <div class="home-welcome-title">
+                    <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable
+
+                        Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt 
+                        à porter</p>
+                </div>
+            </div>
+            <div class="home-welcome-image">
+                <img src="{{ asset('/images/Home_Lite.png') }}"/>
+            </div>
+        </div>
+        <div class="home-gallery">
+            <div class="home-welcome-title">
+                <h2>NOS PRODUITS</h2>
+            </div>
+            <div class="gallery-container">
+                {# FAIRE UNE BOUCLE #}
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="" alt="Image du produit" />
+                    </div>
+                    <div class="gallery-product-name">
+                        <h2>product.name</h2>
+                    </div>
+                    <div class="gallery-description">
+                        <p>product.descriptionShort</p>
+                    </div>
+                    <div class="gallery-price">
+                        <p>product.price €</p>
+                    </div>
+                    <div class="button-gallery">
+                        {# /!\ Boutons change avec clic ou hover #}
+                        <button class="button button-submit">Voir le produit</button>
+                    </div>
+                </div>
+            </div>
+
+
+{# A DEVELOPPER #}
+        </div>
+        <div class="home-conviction">
+            <div class="home-conviction-text">
+                <div class="home-conviction-title">
+                    <h2>NOTRE CONVICTION</h2>
+                </div>
+                <div class="home-conviction-description">
+                    <p>Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
+                </div>
+            </div>
+            <div class="home-conviction-image">
+                <img src="{{ asset('/images/Connection_Lite.png') }}"/>
+            </div>
+        </div>
+        <div class="home-values">
+            <div class="home-values-image">
+                <img src="{{ asset('/images/Values_Lite.png') }}"/>
+            </div>
+            <div class="home-values-text">
+                <div class="home-values-title">
+                    <h2>NOS VALEURS</h2>
+                </div>
+                <div class="home-values-description">
+                    <p>Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.
+                    Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.
+                    Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>   
+{% endblock %}

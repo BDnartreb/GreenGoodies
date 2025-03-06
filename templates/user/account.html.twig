@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+<main>
+    <div class="account-title">
+        <h1>Mon Compte</h1>
+    </div>
+    <div class="account-container">
+        <div class="account-orders">
+            <h2>Mes commandes</h2>
+            {# Tableau commandes #}
+        </div>
+        <div class="account-api">
+            <h2>Mon accès API</h2>        
+            <div class="button">
+                <button class="button button-submit">Activer mon accès API</button>
+            </div>
+        </div>
+        <div class="account-delete">        
+            <div class="button">
+                <button class="button button-submit">Supprimer mon compte</button>
+            </div>
+        </div>
+        
+    </div>
+</main>   
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+<main>
+    <div class="basket-title">
+        <h1>Mon panier</h1>
+    </div>
+    <div class="basket-empty">
+        <p>x Vider le panier</p>
+    </div>
+    <div class="basket-products">
+        <div class="basket-product">
+            <div class="basket-product-image">
+                <img src="{{ asset('images/' ~ product.image ~ '.png') }}" alt="Image du produit" />
+            </div>
+            <div class="basket-product-text">
+                <p>{{ product.descriptionShort }}</p>
+                <p>Quantité : {{ product.quantity }}</p>
+                <h2>{{ product.price }} €</h2>
+            </div>
+        </div>
+    </div>
+    <div class="basket-total">
+        <p>Total panier :  €</p>
+        <p>Frais de livraison : Offert</p>
+    </div>  
+        
+    <div class="button">
+        <button class="button button-submit">Valider la commande</button>
+    </div>
+</main>   
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail produit{% endblock %}
+
+{% block body %}
+<main>
+    <div class="photo">
+        <img src="{{ asset('images/' ~ product.image ~ '.png') }}" alt="Image du produit" />
+    </div>
+    <div class="container">
+        <h1>{{ product.name }}</h1>
+        <h2>{{ product.price }} €</h2>
+        <p>Description</p>
+        <p>{{ product.descriptionLong }}</p>
+        <div class="button">
+            {# /!\ Boutons change avec clic ou hover #}
+            <button class="button button-submit">Ajouter au panier</button>
+        </div>
+    </div>
+</main>   
+{% endblock %}

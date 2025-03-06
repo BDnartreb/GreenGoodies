@@ -19,7 +19,7 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $clientId = null;
+    private ?User $client = null;
 
     /**
      * @var Collection<int, Product>
@@ -43,14 +43,14 @@ class Order
         return $this->id;
     }
 
-    public function getClientId(): ?User
+    public function getClient(): ?User
     {
-        return $this->clientId;
+        return $this->client;
     }
 
-    public function setClientId(?User $clientId): static
+    public function setClient(?User $client): static
     {
-        $this->clientId = $clientId;
+        $this->client = $client;
 
         return $this;
     }
