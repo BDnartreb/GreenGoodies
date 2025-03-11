@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\User;
-use App\Form\ConnectionType;
 use App\Form\LoginType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,6 +49,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('password')->getData();
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $user->setRoles(['ROLE_USER']);
             $em->persist($user);
             $em->flush();
 
@@ -73,7 +73,7 @@ final class UserController extends AbstractController
         $form = $this->createForm(LoginType::class, $user);
         $form->handleRequest($request);        
 
-        return $this->render('connection/login.html.twig', [
+        return $this->render('product/home.html.twig', [
             'form' => $form,
             'last_username' => $lastUsername,
             'error' => $error,

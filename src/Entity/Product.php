@@ -37,7 +37,7 @@ class Product
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'products')]
+    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'products', cascade: ['persist'])]
     private Collection $orders;
 
     public function __construct()

@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'clientId', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'clientId', orphanRemoval: true, cascade: ['persist'])]
     private Collection $orders;
 
     public function __construct()
@@ -161,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->orders->contains($order)) {
             $this->orders->add($order);
-            $order->setClientId($this);
+            $order->setClient($this);
         }
 
         return $this;
@@ -171,8 +171,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($order->getClientId() === $this) {
-                $order->setClientId(null);
+            if ($order->getClient() === $this) {
+                $order->setClient(null);
             }
         }
 

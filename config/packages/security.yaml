@@ -28,7 +28,12 @@ security:
     access_control:
         # - { path: ^/user, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
-         
+        - { path: ^/registration, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/user, roles: ROLE_USER } 
+        - { path: ^/home, roles: PUBLIC_ACCESS } 
+        #- { path: ^/home, roles: ROLE_USER }  
+        - { path: ^/product, roles: ROLE_USER }       
 
 when@test:
     security:

@@ -17,14 +17,14 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'orders', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $client = null;
 
     /**
      * @var Collection<int, Product>
      */
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'orders')]
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'orders', cascade: ['persist'])]
     private Collection $products;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

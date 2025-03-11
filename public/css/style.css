@@ -1,15 +1,48 @@
 
+
+.button-show-product {
+    width: 480px;
+    height: 77px;
+    border: 0px;
+    padding: 20px 0px 20px 0px;
+    background-color: #FFFDF7;
+}
+
+.button-show-product:hover {
+    color: #FFFDF7;
+    background-color: #333333;
+}
+.button-submit {}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFDF7;
+}
+
+main {
+    width: 1440px;
+    background-color: #FFFDF7;
+}
+
+
+
+
+
+
+/*HEADER*/
 .nav {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 1440px;
     height: 81px;
     border-bottom: 1px;
     border-color: #F6F5F0;
     background-color: #FFFDF7;
-
 }
 
 .nav-1 {
@@ -50,11 +83,128 @@
     text-decoration: none;
 }
 
+/*HOME*/
+.home-welcome {
+    display: flex;
+    flex-direction: row;
+    background-color: #E8F0E3;
+    width:100%;
+}
+
+.home-welcome-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   /* align-items: center;*/
+    padding: 0px 173px 0px 173px;
+}
+
+.home-welcome-title {
+}
+
+.home-welcome-sentence {
+}
+
+.home-gallery {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:100%;
+}
+
+.gallery-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33.33%;
+    height : 692px;
+    background-color: #FFFDF7;
+    background-color: red;
+}
+
+.gallery-image img {
+    height : 474px;
+    object-fit: cover;
+}
+
+.gallery-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height : 218px;
+}
+
+.gallery-product-name {}
+.gallery-description {}
+.gallery-price {}
+.button-gallery {}
+
+
+
+
+.home-conviction {
+    display: flex;
+    flex-direction: row;
+    height : 646px;
+}
+.home-conviction-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-left: 40px;
+    width : 66.66%;
+}
+
+.home-conviction-title {}
+.home-conviction-description {
+    width : 425px;
+    margin : 0px 40px 30px 0px;
+}
+
+.home-conviction-image img {
+    height : 646px;
+    object-fit: cover;
+}
+
+.home-values {
+    display: flex;
+    flex-direction: row;
+    height : 646px;
+}
+
+.home-values-image img {
+    height : 646px;
+    object-fit: cover;
+}
+.home-values-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-left: 448px;
+    width : 66.66%;
+}
+.home-values-title {}
+.home-values-description {
+    width : 465px;
+    margin : 0px 40px 30px 0px;
+}
+
+
+
+
+
+/*FOOTER*/
 .footer {
     display: flex;
     flex-direction: row;
     justify-content: right;
-    width: 100%;
+    width: 1440px;
     height: 81px;
     border-bottom: 1px;
     border-color: #F6F5F0;

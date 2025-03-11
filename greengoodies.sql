@@ -70,24 +70,3 @@ INSERT INTO `order_product` (`order_id`, `product_id`) VALUES
 (6, 7);
 
 -- --------------------------------------------------------
-
-
-
-
-/*--
--- Structure of the table `messaging`
---
-
-DROP TABLE IF EXISTS `messaging`;
-CREATE TABLE IF NOT EXISTS `messaging` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `message` text NOT NULL,
-  `sender_id` int(11) NOT NULL,
-  `receiver_id` int(11) NOT NULL,
-  `receiver_read` boolean NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-*/
-
-
