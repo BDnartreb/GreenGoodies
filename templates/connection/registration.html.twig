@@ -4,30 +4,32 @@
 
 {% block body %}
 <main>
-    <div class="photo">
-        <img src="{{ asset('images/Registration_Lite.png') }}" alt="Image de la page d'enregistrement" />
-    </div>
-    <div class="inscription">
-        <h1>Inscription</h1>
-        <p>Tous les champs sont obligatoires.</p>
-        {{ form_errors(form) }}
-        {{ form_start(form) }}
-            {{ form_row(form.lastName) }}
-            {{ form_row(form.firstName) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.password) }}
-            <div>
-                <label>
-                    {{ form_widget(form.CGU) }} <!-- Case à cocher -->
-                    {{ form_label(form.CGU) }}  <!-- Texte du label -->
-                </label>
-                {{ form_errors(form.CGU) }} <!-- Afficher les éventuelles erreurs de validation -->
-            </div>
-            <div class="button">
-                <button class="button button-submit">Se connecter</button>
-            </div>
-        {{ form_end(form) }}
-        <p><a href=" {{ path('app_login') }}" alt="S'inscrire">J'ai déjà un compte? Se connecter</a></p>
+    <div class="container">
+        <div class="container-image">
+            <img src="{{ asset('images/Registration_Lite.png') }}" alt="Image de la page d'enregistrement" />
+        </div>
+        <div class="container-text">
+                <h2>Inscription</h2>
+                <p>Tous les champs sont obligatoires.</p>
+                {{ form_errors(form) }}
+                {{ form_start(form) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.password) }}
+                    <div>
+                        <label>
+                            {{ form_widget(form.CGU) }} <!-- Case à cocher -->
+                            {{ form_label(form.CGU) }}  <!-- Texte du label -->
+                        </label>
+                        {{ form_errors(form.CGU) }} <!-- Afficher les éventuelles erreurs de validation -->
+                    </div>
+                    <div class="button">
+                        <button class="button-submit">Se connecter</button>
+                    </div>
+                {{ form_end(form) }}
+                <p><a href=" {{ path('app_login') }}" alt="S'inscrire">J'ai déjà un compte? Se connecter</a></p>
+        </div>
     </div>
 </main>  
 {% endblock %}

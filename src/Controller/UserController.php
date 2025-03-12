@@ -6,6 +6,8 @@ use App\Entity\Product;
 use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\RegistrationType;
+use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,22 +19,28 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class UserController extends AbstractController
 {
     #[Route('/user/basket', name: 'app_basket', methods: ['GET'])]
-    public function basket(): Response
+    public function basket(ProductRepository $productRepository): Response
     {
     // A DEVELOPPER
-        $user = $this->getUser();
-        $product = new Product();
+        //$user = $this->getUser();
+        //$product = new Product();
+
+        $product = $productRepository->findAll();
+        
         return $this->render('/user/basket.html.twig', [
-            'product' => $product,
-            'user' => $user,
+            'products' => $product,
+            //'user' => $user,
         ]);
     }
 
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
-    public function account(): Response
+    public function account(OrderRepository $orderRepository): Response
     {
+        $order = $orderRepository->findAll();
+
         return $this->render('/user/account.html.twig', [
             'controller_name' => 'UserController',
+            'orders' => $order,
         ]);
     }
 
@@ -73,11 +81,13 @@ final class UserController extends AbstractController
         $form = $this->createForm(LoginType::class, $user);
         $form->handleRequest($request);        
 
-        return $this->render('product/home.html.twig', [
+        return $this->render('connection/login.html.twig', [
             'form' => $form,
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+
+        //return $this->redirectToRoute('app_home');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
@@ -85,8 +95,5 @@ final class UserController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-
-
 
 }

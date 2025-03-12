@@ -4,20 +4,25 @@
 
 {% block body %}
     <main>
-        <div class="photo">
-            <img src="{{ asset('images/Connection_Lite.png') }}" alt="Image de la page de connexion" />
-        </div>
-        <div class="connection">
-            <h1>Connexion</h1>
-            {{ form_errors(form) }}
-            {{ form_start(form) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.password) }}
-                <div class="button">
-                    <button class="button button-submit">Se connecter</button>
-                </div>
-            {{ form_end(form) }}
-            <p><a href=" {{ path('app_registration')}}" alt="S'inscrire">Pas encore de compte? S'inscrire</a></p>
+        <div class="container">
+            <div class="container-image">
+                <img src="{{ asset('images/Connection_Lite.png') }}" alt="Image de la page de connexion" />
+            </div>
+            <div class="container-text">
+                    <h2>Connexion</h2>
+                    {{ form_errors(form) }}
+                    {{ form_start(form) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.password) }}
+                        <div class="button">
+                            <button class="button-submit">Se connecter</button>
+                        </div>
+                    {{ form_end(form) }}
+                    <div class="connect-form-link"
+                        <p><a href=" {{ path('app_registration')}}" alt="S'inscrire">Pas encore de compte? S'inscrire</a></p>
+                    </div>
+   
+            </div>
         </div>
     </main>        
 {% endblock %}

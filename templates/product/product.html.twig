@@ -4,17 +4,23 @@
 
 {% block body %}
 <main>
-    <div class="photo">
-        <img src="{{ asset('images/' ~ product.image ~ '.png') }}" alt="Image du produit" />
-    </div>
     <div class="container">
-        <h1>{{ product.name }}</h1>
-        <h2>{{ product.price }} €</h2>
-        <p>Description</p>
-        <p>{{ product.descriptionLong }}</p>
-        <div class="button">
-            {# /!\ Boutons change avec clic ou hover #}
-            <button class="button button-submit">Ajouter au panier</button>
+        <div class="container-image">
+            <img src="{{ asset('images/' ~ product.image ~ '.png') }}" alt="Image du produit" />
+        </div>
+        <div class="container-text">
+            <h2>{{ product.name }}</h2>
+            <div class="product-price">
+                <p>{{ product.price }} €</p>
+            </div>
+            <h5>Description</h5>
+            <div class="product-description">
+                <p>{{ product.descriptionLong }}</p>
+            </div>
+            <div class="button">
+                {# /!\ Boutons change avec clic ou hover #}
+                <button class="button-submit">Ajouter au panier</button>
+            </div>
         </div>
     </div>
 </main>   

@@ -4,82 +4,81 @@
 
 {% block body %}
 <main>
-    <div class="home-container">
-        <div class="home-welcome">
-            <div class="home-welcome-text">
-                <div class="home-welcome-title">
+    <div class="container">
+        <div class="container-half container-welcome">
+            <div class="welcome">
+                <div class="welcome-title">
                     <h1>Bienvenue</h1>
                 </div>
-                <div class="home-welcome-sentence">
-                    <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable
-
-                        Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt 
+                <div class="welcome-text">
+                    <p>Découvrez notre univers de produits <br>
+                        durables et éthiques pour une<br> consommation responsable</p>
+                    <p>Retrouvez des articles d’hygiène & beauté, <br>
+                        des accessoires & boissons et du prêt<br> 
                         à porter</p>
                 </div>
             </div>
-            <div class="home-welcome-image">
-                <img src="{{ asset('/images/Home_Lite.png') }}"/>
-            </div>
         </div>
-        <div class="home-gallery">
-            <div class="home-welcome-title">
-                <h2>NOS PRODUITS</h2>
-            </div>
-            <div class="gallery-container">
-                {% for product in products %}
-                    <div class="gallery-card">
-                        <div class="gallery-image">
-                            <img src="{{ asset('/images/' ~ product.image ~'.png') }}" alt="Image du produit" />
+        <div class="container-half">
+            <img src="{{ asset('/images/Home_Lite.png') }}"/>
+        </div>
+    </div>
+    <div class="home-gallery">
+        <div class="home-welcome-title">
+            <h3>NOS PRODUITS</h3>
+        </div>
+        <div class="gallery-container">
+            {% for product in products %}
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="{{ asset('/images/' ~ product.image ~'.png') }}" alt="Image du produit" />
+                    </div>
+                    <div class="gallery-text">
+                        <div class="gallery-product-name">
+                            <h4>{{ product.name }}</h4>
                         </div>
-                        <div class="gallery-text">
-                            <div class="gallery-product-name">
-                                <h2>{{ product.name }}</h2>
-                            </div>
-                            <div class="gallery-description">
-                                <p>{{ product.descriptionShort }}</p>
-                            </div>
-                            <div class="gallery-price">
-                                <p>{{ product.price }} €</p>
-                            </div>
-                            <div class="button-gallery">
-                                {# /!\ Boutons change avec clic ou hover #}
+                        <div class="gallery-description">
+                            <p>{{ product.descriptionShort }}</p>
+                        </div>
+                        <div class="gallery-price">
+                            <p>{{ product.price }} €</p>
+                        </div>
+                        <div class="button-gallery">
+                            <a href="{{ path('app_product', {id: product.id}) }}">
                                 <button class="button-show-product button-submit">Voir le produit</button>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-
-
-{# A DEVELOPPER #}
+                </div>
+            {% endfor %}
         </div>
-        <div class="home-conviction">
-            <div class="home-conviction-text">
-                <div class="home-conviction-title">
-                    <h2>NOTRE CONVICTION</h2>
-                </div>
-                <div class="home-conviction-description">
-                    <p>Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. 
-                        Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
-                </div>
+    </div>
+    <div class="home-conviction">
+        <div class="home-conviction-text">
+            <div class="home-conviction-title">
+                <h3>NOTRE CONVICTION</h3>
             </div>
-            <div class="home-conviction-image">
-                <img src="{{ asset('/images/Connection_Lite.png') }}"/>
+            <div class="home-conviction-description">
+                <p>Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. 
+                    Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
             </div>
         </div>
-        <div class="home-values">
-            <div class="home-values-image">
-                <img src="{{ asset('/images/Values_Lite.png') }}"/>
+        <div class="home-conviction-image">
+            <img src="{{ asset('/images/Connection_Lite.png') }}"/>
+        </div>
+    </div>
+    <div class="home-values">
+        <div class="home-values-image">
+            <img src="{{ asset('/images/Values_Lite.png') }}"/>
+        </div>
+        <div class="home-values-text">
+            <div class="home-values-title">
+                <h3>NOS VALEURS</h3>
             </div>
-            <div class="home-values-text">
-                <div class="home-values-title">
-                    <h2>NOS VALEURS</h2>
-                </div>
-                <div class="home-values-description">
-                    <p>Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.<br>
-                    Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.<br>
-                    Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.</p>
-                </div>
+            <div class="home-values-description">
+                <p>Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.<br>
+                Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.<br>
+                Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.</p>
             </div>
         </div>
     </div>

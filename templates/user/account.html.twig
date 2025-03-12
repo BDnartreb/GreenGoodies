@@ -3,27 +3,64 @@
 {% block title %}Mon Compte{% endblock %}
 
 {% block body %}
-<main>
-    <div class="account-title">
-        <h1>Mon Compte</h1>
-    </div>
-    <div class="account-container">
-        <div class="account-orders">
-            <h2>Mes commandes</h2>
-            {# Tableau commandes #}
+<main class="main-background">
+    <div class="container-center">
+        <div class="container-center-title">
+            <h2>Mon Compte</h2>
         </div>
-        <div class="account-api">
-            <h2>Mon accès API</h2>        
-            <div class="button">
-                <button class="button button-submit">Activer mon accès API</button>
+        <div class="container-account">
+            <h4>Mes commandes</h4>
+            <div class="account-orders">
+                <table id="container-orders">
+                    <thread>
+                        <tr>
+                            <th>N°</th>
+                            <th>Date</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thread>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>
+                                    <div class="order-number">
+                                        {{ order.id }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="order-number">
+                                        {#{{ order.date }}#}Toto
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="order-number">
+                                        {#{{ order.price }}#}TotalPrice
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="account-delete">        
-            <div class="button">
-                <button class="button button-submit">Supprimer mon compte</button>
+        <div class="container-account">
+            <h4>Mon accès API</h4>
+            <div class="account-api">
+                        
+                <div class="button">
+                    <a href="{#{{ path('app_', {id: user.id}) }}#}">
+                        <button class="button-submit">Activer mon accès API</button>
+                    </a>
+                </div>
             </div>
         </div>
-        
+        <div class="container-account">        
+            <div class="button">
+                <a href="{#{{ path('app_', {id: user.id}) }}#}">
+                    <button class="button-submit">Supprimer mon compte</button>
+                </a>
+            </div>
+        </div>
     </div>
 </main>   
 {% endblock %}
