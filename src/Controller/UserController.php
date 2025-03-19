@@ -12,35 +12,24 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController
 {
-    #[Route('/user/basket', name: 'app_basket', methods: ['GET'])]
-    public function basket(ProductRepository $productRepository): Response
-    {
-    // A DEVELOPPER
-        //$user = $this->getUser();
-        //$product = new Product();
-
-        $product = $productRepository->findAll();
-        
-        return $this->render('/user/basket.html.twig', [
-            'products' => $product,
-            //'user' => $user,
-        ]);
-    }
-
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
     public function account(OrderRepository $orderRepository): Response
     {
         $order = $orderRepository->findAll();
+        $user = $this->getUser();
+        dump($user);
 
         return $this->render('/user/account.html.twig', [
             'controller_name' => 'UserController',
             'orders' => $order,
+            'user' => $user,
         ]);
     }
 
@@ -79,15 +68,21 @@ final class UserController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         $form = $this->createForm(LoginType::class, $user);
-        $form->handleRequest($request);        
+        $form->handleRequest($request);    
+        /*$session = $request->getSession();
+        dd($session);
+        
+        if (!$session) {
+            return $this->redirectToRoute('app_home');
+        }*/
 
         return $this->render('connection/login.html.twig', [
             'form' => $form,
             'last_username' => $lastUsername,
             'error' => $error,
+            //'session' => $session,
         ]);
 
-        //return $this->redirectToRoute('app_home');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
@@ -96,4 +91,26 @@ final class UserController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+    /*#[Route(path: '/user/apiaccess', name: 'app_apiaccess')]
+    public function apiAccess(Request $request,
+        EntityManagerInterface $em): Response
+    {
+        $session = $request->getSession();
+        $userEmail = $session->get('email');
+        dd($session);
+        return $this->redirectToRoute('app_registration');
+
+       $user->setRoles(['ROLE_TOTO']);
+        $em->persist($user);
+        $em->flush();
+        //$userRole [] = $user->getRoles();
+        
+        //if( $currentUserRole = ['ROLE_USER']) {
+          //  $user = $this->setRoles(['ROLE_API']);
+        }
+
+        if($currentUserRole = ['ROLE_API']) {
+            $currentUser->setRoles(['ROLE_USER']);
+        }
+    }*/
 }

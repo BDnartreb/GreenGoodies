@@ -30,9 +30,6 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
-    private ?bool $validated = null;
-
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -91,15 +88,4 @@ class Order
         return $this;
     }
 
-    public function isValidated(): ?bool
-    {
-        return $this->validated;
-    }
-
-    public function setValidated(bool $validated): static
-    {
-        $this->validated = $validated;
-
-        return $this;
-    }
 }

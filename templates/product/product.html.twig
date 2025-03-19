@@ -5,21 +5,22 @@
 {% block body %}
 <main>
     <div class="container">
-        <div class="container-image">
+        <div class="container-half container-image">
             <img src="{{ asset('images/' ~ product.image ~ '.png') }}" alt="Image du produit" />
         </div>
-        <div class="container-text">
+        <div class="container-half container-text">
             <h2>{{ product.name }}</h2>
             <div class="product-price">
-                <p>{{ product.price }} €</p>
+                {{ product.price }} €
             </div>
             <h5>Description</h5>
             <div class="product-description">
                 <p>{{ product.descriptionLong }}</p>
             </div>
             <div class="button">
-                {# /!\ Boutons change avec clic ou hover #}
-                <button class="button-submit">Ajouter au panier</button>
+                <a href="{{ path('app_cart_add', {'id': product.id}) }}">
+                    <button class="button-submit">Ajouter au panier {{ product.id }}</button>
+                </a>
             </div>
         </div>
     </div>

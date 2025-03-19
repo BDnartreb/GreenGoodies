@@ -11,6 +11,7 @@ use App\Factory\OrderFactory;
 use App\Factory\ProductFactory;
 use App\Factory\UserFactory;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 use function Symfony\Component\Clock\now;
@@ -19,50 +20,51 @@ class AppFixtures extends Fixture
 {
     private $userPasswordHasher;
     private $productRepository;
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher, ProductRepository $productRepository)
+    private $userRepository;
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher, 
+    ProductRepository $productRepository,
+    UserRepository $userRepository)
     {
         $this->userPasswordHasher = $userPasswordHasher;
         $this->productRepository = $productRepository;
+        $this->userRepository = $userRepository;
     }
 
+// methode privée avec tableau products
+
     public function load(ObjectManager $manager): void
-    {   
-        
-     /*
+    {      
      /////////////////////////////////////////////////////////////////////////////////////////////   
-        UserFactory::createMany(3);
-        ProductFactory::createMany(9);
+     //   UserFactory::createMany(3);
+     //   ProductFactory::createMany(9);
         //OrderFactory::createMany(6);
 
         $products = $this->productRepository->findAll();
+        $users = $this->userRepository->findAll();
 
         if (empty($products)) {
             throw new \Exception('Aucun produit n\'a été trouvé.');
         }
+        if (empty($users)) {
+            throw new \Exception('Aucun user n\'a été trouvé.');
+        }
 
         for ($i = 0; $i < 6; $i++){
             $order = new Order();
-            $order->setClient(UserFactory::random());
+            //$order->setClient(UserFactory::random());
+            $order->setClient($users[array_rand($users)]);
             $order->setDate(new \DateTime());
-            $order->setValidated((bool)random_int(0, 1));
             
                 for ($j=0; $j < mt_rand(1,3); $j++){
-                    $order->addProduct($products[mt_rand(0, count($products) -1)]);
-                }
-
-
-
-
-
-
-
-
-
-
+                    $order->addProduct($products[mt_rand(0, count($products) -1)]);                }
             $manager->persist($order);
         }
+        $manager->flush();
+    }
+}
      /////////////////////////////////////////////////////////////////////////////////////////////   
-     */
+  
+     /*
 
         $user = new User();
         $user->setEmail("didier.mozart@greengoodies.com");
@@ -96,7 +98,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 }
-
+*/
         
 
         /*for ($i=1; $i<10; $i++) {
@@ -111,16 +113,16 @@ class AppFixtures extends Fixture
             
             $productList[] = $product;
         }*/
-
-        /*for ($i; $i<10; $i) {
+/*
+        for ($i; $i<10; $i) {
             $order = new Order();
             $order->setClient($userList[mt_rand(0, count($userList) -1)]);
-            $order->setDate();
+            $order->setDate(new \DateTime());
             $order->setValidated(random_int(0,1));
 
             $orders [] = $order;
-        }*/
-
+        }
+*/
 
         /*Objectif créer une commande avec des produits et un client associé
         for ($i=0; $i<10; $i++) {

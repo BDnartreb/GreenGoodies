@@ -46,12 +46,23 @@
         <div class="container-account">
             <h4>Mon accès API</h4>
             <div class="account-api">
-                        
-                <div class="button">
-                    <a href="{#{{ path('app_', {id: user.id}) }}#}">
-                        <button class="button-submit">Activer mon accès API</button>
-                    </a>
-                </div>
+               {# {% if user.roles is same as(['ROLE_USER']) %}#}
+                    <div class="button">
+                        <a href="{#{{ path('app_apiaccess') }#}">
+                            <button class="button-submit">Activer mon accès API</button>
+                        </a>
+                    </div>
+               {# {% endif %}
+                {% if user.roles is same as(['ROLE_API']) %}
+                    <div class="button">
+                        <a href="{{ path('app_apiaccess') }}">
+                            <button class="button-submit">Désactiver mon accès API</button>
+                        </a>
+                    </div>
+                {% endif %}#}
+
+
+
             </div>
         </div>
         <div class="container-account">        

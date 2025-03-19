@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+<main class="main-background">
+    <div class="container-center">
+        <div class="container-center-title">
+            <h2>Mon panier</h2>
+        </div>
+        <div class="cart-empty">
+            <a href="{{ path('app_cart_delete') }}">
+                <p>x Vider le panier</p>
+            </a>
+        </div>
+        {#{% for product in products %}#}
+        {% for item in items %}
+            <div class="cart-product">
+                <div class="cart-product-image">
+                    <img src="{{ asset('images/' ~ item.product.image ~ '.png') }}" alt="Image du produit" />
+                </div>
+                <div class="cart-product-text">
+                    <div>
+                        <h5>{{ item.product.name }}</h5>
+                    </div>
+                    <div class="cart-product-quantity">
+                        <p>Quantité : {{ item.quantity }}</p>
+                    </div>
+                    <div class="cart-product-price">
+                        <p>{{ item.product.price }} €</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="cart-total">
+            <span>Total panier : {{ total }} </span><span class="cart-total-price"> €</span>
+            <p>Frais de livraison : Offert</p>
+        </div>  
+            
+        <div class="button">
+            <a href="">
+                <button class="button-submit">Valider la commande</button>
+            </a>
+        </div>
+    </div>
+</main>   
+{% endblock %}

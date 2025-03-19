@@ -5,23 +5,22 @@
 {% block body %}
     <main>
         <div class="container">
-            <div class="container-image">
+            <div class="container-half container-image">
                 <img src="{{ asset('images/Connection_Lite.png') }}" alt="Image de la page de connexion" />
             </div>
-            <div class="container-text">
+            <div class="container-half container-text">
                     <h2>Connexion</h2>
                     {{ form_errors(form) }}
                     {{ form_start(form) }}
+                    {#<div class="login-email">Email</div>#}
                         {{ form_row(form.email) }}
+                        {#<div class="login-password">Mot de Passe#}
                         {{ form_row(form.password) }}
                         <div class="button">
                             <button class="button-submit">Se connecter</button>
                         </div>
                     {{ form_end(form) }}
-                    <div class="connect-form-link"
-                        <p><a href=" {{ path('app_registration')}}" alt="S'inscrire">Pas encore de compte? S'inscrire</a></p>
-                    </div>
-   
+                    <a href=" {{ path('app_registration')}}" alt="S'inscrire">Pas encore de compte? S'inscrire</a>  
             </div>
         </div>
     </main>        

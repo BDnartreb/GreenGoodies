@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductController extends AbstractController
 {
@@ -19,6 +20,7 @@ final class ProductController extends AbstractController
         return $this->render('/product/home.html.twig', [
             'controller_name' => 'ProductController',
             'products' => $product,
+            //$_SESSION = session->getOrder session order
         ]);
     }
 
@@ -30,10 +32,14 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    /*#[Route('/api/products', name: 'api_product', methods: ['GET'])]
-    public function getProducts(): JsonResponse
+    #[Route('/api/products', name: 'api_products', methods: ['GET'])]
+    public function getProducts(ProductRepository $productRepository,
+     SerializerInterface $serializer): JsonResponse
     {
-       
-    }*/
+        $productList = $productRepository->findAll();
+        $jsonProductList = $serializer->serialize($productList, 'json', ['groups' => 'getProducts']);
+
+        return new JsonResponse($jsonProductList, Response::HTTP_OK, [], true);
+    }
     
 }

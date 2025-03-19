@@ -8,9 +8,9 @@
             <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
         {% endblock %}
 
-        {% block javascripts %}
+        {#{% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
+        {% endblock %}#}
     </head>
     <body>
         <header>
@@ -24,11 +24,20 @@
                     <div class="nav-2-1">
                         <a href="{{ path('app_home') }}">Nos produits</a>
                     </div>
+
+                    {# {% if (!$_SESSION) %} #}
                     <div class="nav-2-2">
-                        <div class="nav-2-2-1"><a href="{{ path('app_basket') }}">Mon panier</a></div>
+                        <div class="nav-2-2-1"><a href="{{ path('app_registration') }}">Inscription</a></div>
+                        <div class="nav-2-2-1"><a href="{{ path('app_login') }}">Connexion</a></div>
+                    </div>  
+
+                    {# {% if ($_SESSION) %} #}
+                    <div class="nav-2-2">
+                        <div class="nav-2-2-1"><a href="{{ path('app_cart') }}">Mon panier</a></div>
                         <div class="nav-2-2-1"><a href="{{ path('app_account') }}">Mon compte</a></div>
                         <div class="nav-2-2-1"><a href="{{ path('app_logout') }}">Déconnexion</a></div>
-                    </div>              
+                    </div>
+           
                 </div>
             </nav>
         </header>

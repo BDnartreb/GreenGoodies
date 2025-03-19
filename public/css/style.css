@@ -32,6 +32,7 @@ h5 {
     font-size: 10px;
     font-weight: 400;
     color: #000000;
+    margin: 35px 0 10px 0;
 }
 
 h5 {
@@ -277,6 +278,8 @@ main {
     display: flex;
     flex-direction: column;
     width: 50%;
+    align-items: left;
+    text-align: left;
 }
 
 .container-half img {
@@ -285,19 +288,13 @@ main {
     object-fit: cover;
 }
 
-.container-text {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    width: 480px;
-    margin: 80px 0 0 114px;
+.container-half a {
+    text-align: center;
 }
 
-.container-text h2 {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: left;
+.container-text {
+    width: 480px;
+    margin: 80px 0 0 114px;
 }
 
 .product-price {
@@ -307,7 +304,11 @@ main {
     color: #333333;
 }
 
-/*BASKET*/
+.product-description {
+    height: 400px;
+}
+
+/*CART*/
 .main-background {
     background-color: #f7f1ec;
 }
@@ -327,18 +328,18 @@ main {
     justify-content: center;
 }
 
-.basket-empty:hover {
+.cart-empty:hover {
     text-decoration: underline;
 }
 
-.basket-product {
+.cart-product {
     display: flex;
     flex-direction: row;
     margin-bottom: 5px;
     background-color: #FFFDF7;
 }
 
-.basket-product-image {
+.cart-product-image {
     display: flex;
     flex: row;
     justify-content: center;
@@ -347,41 +348,41 @@ main {
     height: 213px;
 }
 
-.basket-product-image img {
+.cart-product-image img {
     width: 142px;
     height: 133px;
 }
 
-.basket-product-text {
+.cart-product-text {
     display: flex;
     flex-direction: column;
     justify-content:center;
 }
 
-.basket-product-quantity {
+.cart-product-quantity {
 }
 
-.basket-product-price p {
+.cart-product-price p {
     font-family: Inter;
     font-size: 18px;
     font-weight: 500;
     color: #333333;
 }
 
-.basket-total {
+.cart-total {
     padding-left: 400px;
     background-color: #FFFDF7;
     margin-bottom: 40px;
 }
 
-.basket-total-price {
+.cart-total-price {
     font-family: Inter;
     font-size: 20px;
     font-weight: 400;
     color: #333333;
 }
 
-.basket-total p {
+.cart-total p {
 
 }
 
