@@ -3,8 +3,12 @@
 namespace App\Service\Cart;
 
 use App\Entity\Order;
+use App\Entity\OrderDetail;
 use App\Entity\User;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 //use Symfony\Component\HttpFoundation\Session\SessionInterface;//depreciated
 
@@ -12,12 +16,22 @@ class CartService {
 
     private $requestStack;
     private $productRepository;
+    private $orderRepository;
+    private $em;
+    private $security;
 
-    public function __construct(RequestStack $requestStack,
-        ProductRepository $productRepository)
+    public function __construct(
+        RequestStack $requestStack,
+        ProductRepository $productRepository,
+        OrderRepository $orderRepository,
+        EntityManagerInterface $em,
+        Security $security)
     {
         $this->requestStack = $requestStack;
         $this->productRepository = $productRepository;
+        $this->orderRepository = $orderRepository;
+        $this->em = $em;
+        $this->security = $security;
     }
 
     /**
@@ -81,21 +95,32 @@ class CartService {
         $this->requestStack->getSession()->set('cart', $cart);
     }
 
-    public function order()
+    public function cartToOrder()
     {
-        $cart = $this->requestStack->getSession()->get('cart', []);
-
-        $user = new User();
-        $user = $this->requestStack->getSession()->get('client');
+        $user = $this->security->getUser();
 
         $order = new Order();
         $order->setClient($user);
         $order->setDate(new \DateTime());
+        $this->em->persist($order);
+        $this->em->flush();
 
-        foreach($cart as $carts) {
-            $order->$cart->addProducts();
+        $orderId = $order->getId();
+        $order = $this->orderRepository->find($orderId);
+
+        $items = $this->requestStack->getSession()->get('cart', []);
+
+        foreach ($items as $product_id => $quantity) {
+            $product = $this->productRepository->find($product_id);
+            if ($product) {
+                $orderDetail = new OrderDetail();
+                $orderDetail->setQuantity($quantity);
+                $orderDetail->setProductId($product);
+                $orderDetail->setOrderId($order);
+                $this->em->persist($orderDetail);
+            }  
         }
-        return $order;
+        $this->em->flush();
     }
 
 }

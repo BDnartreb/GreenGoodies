@@ -2,14 +2,10 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CartController extends AbstractController
@@ -48,12 +44,9 @@ final class CartController extends AbstractController
     }
 
     #[Route('/cart/validate', name: 'app_cart_validate')]
-    public function order(CartService $cartService, EntityManager $em): Response
+    public function order(CartService $cartService): Response
     {
-        $order = $cartService->order();
-
-        $em->persist($order);
-        $em->flush();
+        $cartService->cartToOrder();
         return $this->redirectToRoute("app_cart");
     }
 

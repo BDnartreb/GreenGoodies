@@ -35,7 +35,7 @@ class Product
 
     #[ORM\Column]
     #[Groups(['getProducts'])]
-    private ?int $quantity = null;
+    private ?int $stock = null;
 
     #[ORM\Column]
     #[Groups(['getProducts'])]
@@ -44,12 +44,20 @@ class Product
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'products', cascade: ['persist'])]
+    /*#[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'products', cascade: ['persist'])]
     private Collection $orders;
+    */
+
+    /**
+     * @var Collection<int, OrderDetail>
+     */
+    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'productId', orphanRemoval: true)]
+    private Collection $orderDetails;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
+   //     $this->orders = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,14 +113,14 @@ class Product
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getStock(): ?int
     {
-        return $this->quantity;
+        return $this->stock;
     }
 
-    public function setQuantity(int $quantity): static
+    public function setStock(int $stock): static
     {
-        $this->quantity = $quantity;
+        $this->stock = $stock;
 
         return $this;
     }
@@ -132,7 +140,7 @@ class Product
     /**
      * @return Collection<int, Order>
      */
-    public function getOrders(): Collection
+   /* public function getOrders(): Collection
     {
         return $this->orders;
     }
@@ -151,6 +159,36 @@ class Product
     {
         if ($this->orders->removeElement($order)) {
             $order->removeProduct($this);
+        }
+
+        return $this;
+    }
+*/
+    /**
+     * @return Collection<int, OrderDetail>
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): static
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails->add($orderDetail);
+            $orderDetail->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): static
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getProductId() === $this) {
+                $orderDetail->setProductId(null);
+            }
         }
 
         return $this;

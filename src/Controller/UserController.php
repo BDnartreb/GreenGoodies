@@ -8,9 +8,11 @@ use App\Form\LoginType;
 use App\Form\RegistrationType;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,6 +21,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController
 {
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+
+
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
     public function account(OrderRepository $orderRepository): Response
     {
@@ -57,25 +68,25 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/login', name: 'app_login', methods: ['GET'])]
+/*
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(Request $request,
-        AuthenticationUtils $authenticationUtils): Response
+        AuthenticationUtils $authenticationUtils, 
+        UserRepository $userRepository): Response
     {
-        $user = new User();
-
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $form = $this->createForm(LoginType::class, $user);
-        $form->handleRequest($request);    
-        /*$session = $request->getSession();
-        dd($session);
         
-        if (!$session) {
-            return $this->redirectToRoute('app_home');
-        }*/
+        $user = new User();
+        $form = $this->createForm(LoginType::class, $user);
+        $form->handleRequest($request);
 
+      
         return $this->render('connection/login.html.twig', [
             'form' => $form,
             'last_username' => $lastUsername,
@@ -89,7 +100,7 @@ final class UserController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
+    }*/
 
     /*#[Route(path: '/user/apiaccess', name: 'app_apiaccess')]
     public function apiAccess(Request $request,

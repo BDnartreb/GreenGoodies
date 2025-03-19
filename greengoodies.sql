@@ -28,7 +28,7 @@ INSERT INTO `product` (`id`, `name`, `description_short`, `description_long`, `i
 
 -- --------------------------------------------------------
 --
--- Hydrates table `order_production`
+-- Hydrates table `user`
 --
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `first_name`, `last_name` ) VALUES
@@ -41,32 +41,32 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `first_name`, `last_name
 
 -- --------------------------------------------------------
 --
--- Hydrates table `order_production`
+-- Hydrates table `order`
 --
 
-INSERT INTO `order` (`id`, `client_id`, `date`, `validated` ) VALUES
-(1, 2, '2024-10-17 10:51:26', '1'),
-(2, 5, '2024-11-13 12:47:23', '1'),
-(3, 6, '2024-11-17 08:15:38', '1'),
-(4, 2, '2025-01-17 10:52:46', '1'),
-(5, 5, '2025-02-17 17:11:58', '1'),
-(6, 5, '2025-02-17 17:51:26', '1');
+INSERT INTO `order` (`id`, `client_id`, `date`) VALUES
+(1, 2, '2024-10-17 10:51:26'),
+(2, 5, '2024-11-13 12:47:23'),
+(3, 6, '2024-11-17 08:15:38'),
+(4, 2, '2025-01-17 10:52:46'),
+(5, 5, '2025-02-17 17:11:58'),
+(6, 5, '2025-02-17 17:51:26');
 
 -- --------------------------------------------------------
 --
--- Hydrates table `order_production`
+-- Hydrates table `order_detail`
 --
 
-INSERT INTO `order_product` (`order_id`, `product_id`) VALUES
-(1, 2),
-(2, 5),
-(3, 6),
-(4, 2),
-(5, 8),
-(6, 9),
-(4, 3),
-(4, 4),
-(5, 5),
-(6, 7);
+INSERT INTO `order_detail` (`id`, `order_id_id`, `product_id_id`,`quantity`) VALUES
+(1, 1, 2, 1),
+(2, 1, 5, 1),
+(3, 1, 6, 2),
+(4, 2, 2, 3),
+(5, 3, 8, 1),
+(6, 3, 9, 1),
+(7, 4, 3, 2),
+(8, 5, 4, 3),
+(9, 5, 5, 1),
+(10, 6, 7, 1);
 
 -- --------------------------------------------------------
