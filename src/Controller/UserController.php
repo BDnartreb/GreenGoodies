@@ -2,50 +2,50 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
 use App\Entity\User;
-use App\Form\LoginType;
 use App\Form\RegistrationType;
-use App\Repository\OrderRepository;
-use App\Repository\ProductRepository;
-use App\Repository\UserRepository;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController
 {
+    private $security;
     private $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack,
+    Security $security)
     {
         $this->requestStack = $requestStack;
+        $this->security = $security;
     }
-
-
 
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
-    public function account(OrderRepository $orderRepository): Response
+    public function account(UserService $userService): Response
     {
-        $order = $orderRepository->findAll();
-        $user = $this->getUser();
-        dump($user);
-
         return $this->render('/user/account.html.twig', [
-            'controller_name' => 'UserController',
-            'orders' => $order,
-            'user' => $user,
-        ]);
+                'items' => $userService->account(),
+                'user' => $this->getUser(),
+            ]);         
     }
 
+    // #[Route('/registration', name: 'app_registration')]
+    // public function registration(UserService $userService): Response
+    // {
+    //     return $this->render('connection/registration.html.twig', [
+    //         'form' => $userService->registration(),
+    //     ]);
+    // }
+
     #[Route('/registration', name: 'app_registration')]
-    public function registration(Request $request,
+    public function registration(
+        Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $em): Response
     {
@@ -65,63 +65,93 @@ final class UserController extends AbstractController
         }
 
         return $this->render('connection/registration.html.twig', [
-            'form' => $form,
+            'form' => $form, 
         ]);
     }
-/*
-    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
-    public function login(Request $request,
-        AuthenticationUtils $authenticationUtils, 
-        UserRepository $userRepository): Response
+
+/**
+ * Delete user account all data linked
+ * 
+ */
+    #[Route('/user/account/delete', name: 'app_account_delete')]
+    public function accountDelete(UserService $userService): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_home');
-        }
-        
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        
-        $user = new User();
-        $form = $this->createForm(LoginType::class, $user);
-        $form->handleRequest($request);
-
-      
-        return $this->render('connection/login.html.twig', [
-            'form' => $form,
-            'last_username' => $lastUsername,
-            'error' => $error,
-            //'session' => $session,
-        ]);
-
-    }
-
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }*/
-
-    /*#[Route(path: '/user/apiaccess', name: 'app_apiaccess')]
-    public function apiAccess(Request $request,
-        EntityManagerInterface $em): Response
-    {
-        $session = $request->getSession();
-        $userEmail = $session->get('email');
-        dd($session);
+        $userService->accountDelete();
         return $this->redirectToRoute('app_registration');
+    }
 
-       $user->setRoles(['ROLE_TOTO']);
-        $em->persist($user);
-        $em->flush();
-        //$userRole [] = $user->getRoles();
-        
-        //if( $currentUserRole = ['ROLE_USER']) {
-          //  $user = $this->setRoles(['ROLE_API']);
-        }
+    // #[Route('/user/account/delete', name: 'app_account_delete')]
+    // public function accountDelete(EntityManagerInterface $em): Response
+    // {
+    //     $user = $this->security->getUser();
+    //     $em->remove($user);
+    //     $em->flush();
+    //     return $this->redirectToRoute('app_registration');
+    // }
 
-        if($currentUserRole = ['ROLE_API']) {
-            $currentUser->setRoles(['ROLE_USER']);
-        }
-    }*/
+    #[Route(path: '/user/apiaccess/{api}', name: 'app_apiaccess')]
+    public function apiAccess(UserService $userService, int $api) : Response
+    {
+        $userService->apiAccess($api);
+        return $this->redirectToRoute('app_account');
+    }
+
+    // #[Route(path: '/user/apiaccess/{api}', name: 'app_apiaccess')]
+    // public function apiAccess(
+    //     int $api,
+    //     EntityManagerInterface $em
+    //     ) : Response
+    // {
+    //     $user = $this->security->getUser();
+    //     if ($api == 0){
+    //         $user->setRoles(['ROLE_USER']);
+    //     } elseif ($api == 1){
+    //         $user->setRoles(['ROLE_API']);
+    //     }
+    //     $em->persist($user);
+    //     $em->flush();
+
+    //     return $this->redirectToRoute('app_account');
+    // }
 }
+
+
+// #[Route('/user/account', name: 'app_account', methods: ['GET'])]
+    // public function account(
+    //     OrderRepository $orderRepository,
+    //     OrderDetailRepository $orderDetailRepository,
+    //     ProductRepository $productRepository): Response
+    // {
+    //     $userService->account();
+    //     $user = $this->security->getUser();
+    //     //$user = $this->getUser();
+    //     $orders = $orderRepository->findBy(['client' => $user]);
+    //     $items = [];
+    //     foreach ($orders as $order)
+    //     {
+    //         $orderId = $order->getId();
+    //         $date = $order->getDate();
+    //         $date = $date->format('d/m/Y');
+    //         $orderDetails = $orderDetailRepository->findBy(['orderId' => $orderId]);
+    //         $total = 0;
+
+    //         foreach ($orderDetails as $orderDetail) {
+    //             $quantity = $orderDetail->getQuantity();
+    //             $productId = $orderDetail->getProductId();
+    //             $product = $productRepository->find($productId);
+    //             $price = $product->getPrice();
+    //             $total += $price * $quantity;
+    //         }
+
+    //         $items[] = [
+    //             'number' => $orderId,
+    //             'date' => $date,
+    //             'total' => $total
+    //         ];
+    //     }
+
+    //     return $this->render('/user/account.html.twig', [
+    //             'items' => $items,
+    //             'user' => $user,
+    //         ]);         
+    // }

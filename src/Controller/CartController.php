@@ -33,7 +33,7 @@ final class CartController extends AbstractController
         return $this->redirectToRoute("app_cart");
     }
 /**
- * Poursupprimer un produit dans le panier
+ * Pour supprimer un produit dans le panier
  * appelée depuis le fichier twg avec la route et l'id du produit à supprimer
  */
     #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
@@ -47,69 +47,9 @@ final class CartController extends AbstractController
     public function order(CartService $cartService): Response
     {
         $cartService->cartToOrder();
+        //Flash message
+        // $this->addFlash('success', 'Votre commande a bien été confirmée.');
+        // $session->getFlashBag()->add('success', 'L\'opération a réussi !');
         return $this->redirectToRoute("app_cart");
     }
-
-
-
-
-
 }
-
-
- /*  #[Route('/cart/add/{id}', name: 'app_cart_add')]
-    public function add($id, Request $request): Response
-    {
-        $session = $request->getSession();
-        $cart = $session->get('cart', []);
-        
-        if(!empty($cart[$id])) {
-            $cart[$id]++;
-         } else {
-            $cart[$id] = 1;
-        }
-        $session->set('cart', $cart);
-        dd($session->get('cart'));
-        //return $this->redirectToRoute("app_cart");
-    }*/
-
-     /*#[Route('/cart/add/{id}', name: 'app_cart_add')]
-    public function add($id, SessionInterface $session): Response
-    {
-        //$session = $request->getSession();
-        $cart = $session->get('cart', []);
-        
-        if(!empty($cart[$id])) {
-            $cart[$id]++;
-         } else {
-            $cart[$id] = 1;
-        }
-        $session->set('cart', $cart);
-        //dd($session->get('cart'));
-        return $this->redirectToRoute("app_cart");
-    }*/
-
-     /*#[Route('/cart', name: 'app_cart', methods: ['GET'])]
-    public function getCart(SessionInterface $session, ProductRepository $productRepository): Response
-    {
-            $cart = $session->get('cart', []);
-            $cartWithData = [];
-            foreach($cart as $id => $quantity) {
-                $cartWithData[] = [
-                    'product' => $productRepository->find($id),
-                    'quantity' => $quantity
-                ];
-            }
-            dd($cartWithData);
-
-            $total = 0;
-            foreach($cartWithData as $item){
-                $totalItem = $item['product']->getPrice() * $item['quantity'];
-                $total += $totalItem;
-            }
-    
-        return $this->render('/user/cart.html.twig', [
-            'items' => $cartWithData,
-            'total' => $total,
-        ]);
-    }*/

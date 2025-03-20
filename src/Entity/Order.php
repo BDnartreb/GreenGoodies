@@ -21,12 +21,6 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?User $client = null;
 
-    /**
-     * @var Collection<int, Product>
-     */
-/*    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'orders', cascade: ['persist'])]
-    private Collection $products;
-*/
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -36,9 +30,8 @@ class Order
     #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'orderId', orphanRemoval: true)]
     private Collection $orderDetails;
 
-        public function __construct()
+    public function __construct()
     {
-//        $this->products = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
     }
 
@@ -59,34 +52,10 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-/*    public function getProducts(): Collection
-    {
-        return $this->products;
-    }*/
-
-/*    public function addProduct(Product $product): static
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
-    }*/
-
-/*    public function removeProduct(Product $product): static
-    {
-        $this->products->removeElement($product);
-
-        return $this;
-    }*/
-
-/*    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
-    }*/
+    }
 
     public function setDate(\DateTimeInterface $date): static
     {

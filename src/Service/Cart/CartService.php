@@ -4,7 +4,6 @@ namespace App\Service\Cart;
 
 use App\Entity\Order;
 use App\Entity\OrderDetail;
-use App\Entity\User;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -121,6 +120,8 @@ class CartService {
             }  
         }
         $this->em->flush();
+        $this->requestStack->getSession()->set('cart', []);
+        
+        
     }
-
 }

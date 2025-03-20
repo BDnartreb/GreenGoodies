@@ -12,29 +12,29 @@
             <h4>Mes commandes</h4>
             <div class="account-orders">
                 <table id="container-orders">
-                    <thread>
+                    <thead>
                         <tr>
                             <th>N°</th>
                             <th>Date</th>
                             <th>Prix</th>
                         </tr>
-                    </thread>
+                    </thead>
                     <tbody>
-                        {% for order in orders %}
+                        {% for item in items %}
                             <tr>
                                 <td>
                                     <div class="order-number">
-                                        {{ order.id }}
+                                        {{ item.number }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="order-number">
-                                        {#{{ order.date }}#}Toto
+                                        {{ item.date }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="order-number">
-                                        {#{{ order.price }}#}TotalPrice
+                                        {{ item.total }} €
                                     </div>
                                 </td>
                             </tr>
@@ -46,28 +46,25 @@
         <div class="container-account">
             <h4>Mon accès API</h4>
             <div class="account-api">
-               {# {% if user.roles is same as(['ROLE_USER']) %}#}
+                {# {% if user.roles is same as(['ROLE_USER']) %} #}
+                {% if 'ROLE_API' in user.roles %}
                     <div class="button">
-                        <a href="{#{{ path('app_apiaccess') }#}">
-                            <button class="button-submit">Activer mon accès API</button>
-                        </a>
-                    </div>
-               {# {% endif %}
-                {% if user.roles is same as(['ROLE_API']) %}
-                    <div class="button">
-                        <a href="{{ path('app_apiaccess') }}">
+                        <a href="{{ path('app_apiaccess', {'api': 0}) }}">
                             <button class="button-submit">Désactiver mon accès API</button>
                         </a>
                     </div>
-                {% endif %}#}
-
-
-
+                {% else %}
+                    <div class="button">
+                        <a href="{{ path('app_apiaccess', {'api': 1}) }}">
+                            <button class="button-submit">Activer mon accès API</button>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="container-account">        
             <div class="button">
-                <a href="{#{{ path('app_', {id: user.id}) }}#}">
+                <a href="{{ path('app_account_delete') }}">
                     <button class="button-submit">Supprimer mon compte</button>
                 </a>
             </div>
