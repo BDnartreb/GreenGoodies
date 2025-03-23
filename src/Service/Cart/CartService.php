@@ -9,7 +9,6 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
-//use Symfony\Component\HttpFoundation\Session\SessionInterface;//depreciated
 
 class CartService {
 
@@ -34,7 +33,7 @@ class CartService {
     }
 
     /**
-     * Ajoute un produit au panier
+     * Add a product to cart
      */
     public function add(int $id){
         $session = $this->requestStack->getSession();
@@ -49,11 +48,11 @@ class CartService {
         $session->set('cart', $cart);
     }
 
-/**
- * Récupère la session, extrait le panier
- * Récupère le détail des produits contenus dans la panier
- * et leur quantité 
- */
+    /**
+     * Get the session
+     * Get the cart from session
+     * Get detail of each product in the cart and quantity 
+     */
     public function getCart() {
         $session = $this->requestStack->getSession();
         $cart = $session->get('cart', []);
@@ -66,12 +65,12 @@ class CartService {
         }
        return $cartWithData;
     }
-/**
- * Fait le total du panier
- * Appelle la fonction getCart() pour récupérer $cartWithData 
- * contenant le panier avec le détail des produits
- * pour calcul le prix total 
- */
+
+    /**
+     * Calculate the amount of the cart
+     * Call getCart() to get $cartWithData (containing products of the cart with details)
+     * to calcul the amount from quantity and price
+     */
     public function getTotal() : float
     {
         $total = 0;
@@ -84,13 +83,10 @@ class CartService {
 
     public function remove(int $id)
     {
-        //$session = $this->requestStack->getSession();
-        //$cart = $session->get('cart', []);
         $cart = $this->requestStack->getSession()->get('cart', []);
         if(!empty($cart[$id])){
             unset($cart[$id]);
         }
-        //$session->set('cart', $cart);
         $this->requestStack->getSession()->set('cart', $cart);
     }
 
@@ -121,7 +117,5 @@ class CartService {
         }
         $this->em->flush();
         $this->requestStack->getSession()->set('cart', []);
-        
-        
     }
 }

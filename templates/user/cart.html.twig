@@ -12,6 +12,11 @@
             <a href="{{ path('app_cart_delete') }}">
                 <p>x Vider le panier</p>
             </a>
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         </div>
         {#{% for product in products %}#}
         {% for item in items %}

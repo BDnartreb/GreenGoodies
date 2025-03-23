@@ -6,12 +6,12 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
 use App\Entity\Order;
+use App\Entity\OrderDetail;
 use App\Entity\Product;
-use App\Factory\OrderFactory;
-use App\Factory\ProductFactory;
-use App\Factory\UserFactory;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 use function Symfony\Component\Clock\now;
@@ -21,129 +21,108 @@ class AppFixtures extends Fixture
     private $userPasswordHasher;
     private $productRepository;
     private $userRepository;
+    private $orderRepository;
+
     public function __construct(UserPasswordHasherInterface $userPasswordHasher, 
     ProductRepository $productRepository,
-    UserRepository $userRepository)
+    UserRepository $userRepository,
+    OrderRepository $orderRepository)
     {
         $this->userPasswordHasher = $userPasswordHasher;
         $this->productRepository = $productRepository;
         $this->userRepository = $userRepository;
+        $this->orderRepository = $orderRepository;
     }
-
-// methode privée avec tableau products
 
     public function load(ObjectManager $manager): void
-    {      
-     /////////////////////////////////////////////////////////////////////////////////////////////   
-     //   UserFactory::createMany(3);
-     //   ProductFactory::createMany(9);
-        //OrderFactory::createMany(6);
+    {    
+    //USERS AND PRODUCTS
+        $users = [
+            ['didier.mozart@greengoodies.com', 'ROLE_USER', 'password', 'Didier', 'Mozart'],
+            ['api.user@greengoodies.com', 'ROLE_API', 'password', 'Api', 'ApiUser']
+        ];
 
-        $products = $this->productRepository->findAll();
-        $users = $this->userRepository->findAll();
+        $products = [
 
-        if (empty($products)) {
-            throw new \Exception('Aucun produit n\'a été trouvé.');
+            ['Kit d hygiène recyclable', 'Pour une salle de bain éco-frendly', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_1_Lite', 0, 24.99],
+            ['Shot Tropical', 'Fruit frais, pressés à froid', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_2_Lite', 0, 5.50],
+            ['Gourde en bois', '50cl, bois d olivier', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_3_Lite', 0, 16.90],
+            ['Disque Démaquillants x3', 'Solution efficace pour vous démaquiller en douceur', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_4_Lite', 0, 19.90],
+            ['Bougie Lavande & Patchouli', 'Cire naturelle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_5_Lite', 0, 32.00],
+            ['Brosse à dent', 'Bois de hêtre rouge issu de forêts gérées durablement', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_6_Lite', 0, 5.40],
+            ['Kit de couverts en bois', 'Revêtement Bio en olivier & sac de transport', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_7_Lite', 0, 12.30],
+            ['Nécessaire, déodorant Bio', '50ml déodorant à l eucalyptus', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_8_Lite', 0, 8.50],
+            ['Savon Bio', 'Thé, Orange & Girofle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a.', 'Product_9_Lite', 0, 18.90],
+        ];
+
+        foreach ($users as $user) {
+            $newuser = new User();
+            $newuser->setEmail($user[0]);
+            $newuser->setRoles([$user[1]]);
+            $newuser->setPassword($this->userPasswordHasher->hashPassword($newuser, $user[2]));
+            $newuser->setFirstName($user[3]);
+            $newuser->setLastName($user[4]);
+            $manager->persist($newuser);
         }
-        if (empty($users)) {
-            throw new \Exception('Aucun user n\'a été trouvé.');
-        }
 
-        for ($i = 0; $i < 6; $i++){
-            $order = new Order();
-            //$order->setClient(UserFactory::random());
-            $order->setClient($users[array_rand($users)]);
-            $order->setDate(new \DateTime());
-            
-                for ($j=0; $j < mt_rand(1,3); $j++){
-                    $order->addProduct($products[mt_rand(0, count($products) -1)]);                }
-            $manager->persist($order);
-        }
-        $manager->flush();
-    }
-}
-     /////////////////////////////////////////////////////////////////////////////////////////////   
-  
-     /*
-
-        $user = new User();
-        $user->setEmail("didier.mozart@greengoodies.com");
-        $user->setFirstName("Didier");
-        $user->setLastName("Mozart");
-        $user->setRoles(["ROLE_USER"]);
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, "password"));
-        $manager->persist($user);
-        $userList[] = $user;
-
-        $userApi = new User();
-        $userApi->setEmail("admin.api@greengoodies.com");
-        $userApi->setFirstName("Admin");
-        $userApi->setLastName("Api");
-        $userApi->setRoles(["ROLE_API"]);
-        $userApi->setPassword($this->userPasswordHasher->hashPassword($userApi, "password"));
-        $manager->persist($userApi);
-        $userList[] = $userApi;
-
-        for ($i=3; $i<10; $i++) {
-            $newUser = new User();
-            $newUser->setEmail('newuser' . $i . '@greengoodies.com');
-            $newUser->setFirstName('Prenom ' . $i);
-            $newUser->setLastName('Nom' . $i);
-            $newUser->setRoles(["ROLE_USER"]);
-            $newUser->setPassword($this->userPasswordHasher->hashPassword($newUser, "password"));
-            $manager->persist($newUser);
-            
-            $userList[] = $newUser;
+        foreach ($products as $product) {
+            $newproduct = new Product();
+            $newproduct->setName($product[0]);
+            $newproduct->setDescriptionShort($product[1]);
+            $newproduct->setDescriptionLong($product[2]);
+            $newproduct->setImage($product[3]);
+            $newproduct->setStock(random_int(1,9));
+            $newproduct->setPrice($product[5]);
+            $manager->persist($newproduct);
         }
         $manager->flush();
-    }
-}
-*/
+
+        //ORDERS
+
+        $userList = $this->userRepository->findAll();
+         $min = new DateTime('2025-01-01 00:00:00');
+         $max = new DateTime('2025-03-22 23:59:59');
         
-
-        /*for ($i=1; $i<10; $i++) {
-            $product = new Product();
-            $product->setName('NomProduit n°' . $i);
-            $product->setDescriptionShort('Description Courte du Produit n°' . $i);
-            $product->setDescriptionLong('Description Longue du Produit n°' . $i);
-            $product->setImage('Chemin de l\'image du Produit n°' . $i);
-            $product->setQuantity('Quantité : ');
-            $product->setPrice('Prix du Produit n°' . $i . ':' . random_int(5, 250) . '€');
-            $manager->persist($product);
-            
-            $productList[] = $product;
-        }*/
-/*
-        for ($i; $i<10; $i) {
-            $order = new Order();
-            $order->setClient($userList[mt_rand(0, count($userList) -1)]);
-            $order->setDate(new \DateTime());
-            $order->setValidated(random_int(0,1));
-
-            $orders [] = $order;
+        for ($i = 0 ; $i < 10; $i++) {
+            $neworder = new Order();
+            $neworder->setClient($userList[array_rand($userList)]);
+            //$neworder->setDate(new \DateTime());
+            $neworder->setDate($this->getRandomDateBetween($min, $max));
+            $manager->persist($neworder);
+            $orders [] = $neworder;
         }
-*/
+        
+        // ORDER_DETAIL
+        $productList = $this->productRepository->findAll();
 
-        /*Objectif créer une commande avec des produits et un client associé
-        for ($i=0; $i<10; $i++) {
-            $order = new Order();
-            $order->setDate();
-            $order->setProduct();
-            $order->setValidated();
-            $order->setClient();
-
-            'archived' => self::faker()->boolean(),
-
+        foreach ($orders as $order) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->setOrderId($order);
+            $orderDetail->setQuantity(random_int(1, 3));
+            $orderDetail->setProductId($productList[array_rand($productList)]);
+            $manager->persist($orderDetail);
         }
-        */
-        /*for ($i = 0; $i < 20; $i++) {
-            $book = new Book;
-            $book->setTitle('Livre ' . $i);
-            $book->setCoverText('Quatrième de couverture numéro : ' . $i);
-            //relation author/book with random id from array listAuthor 
-            $book->setAuthor($listAuthor[array_rand($listAuthor)]);
-            $manager->persist($book);
-        }*/
 
-        // $product = new Product();
-        // $manager->persist($product);
+        for ($j=0; $j < 20; $j++){
+            $orderDetail = new OrderDetail();
+            $orderDetail->setOrderId($orders[array_rand($orders)]);
+            $orderDetail->setQuantity(random_int(1, 3));
+            $orderDetail->setProductId($productList[array_rand($productList)]);
+            $manager->persist($orderDetail);
+        }
+        $manager->flush();    
+    }
+    
+    private function getRandomDateBetween(DateTime $min, DateTime $max): DateTime
+    {
+        // Convert dates in timestamps
+        $minTimestamp = $min->getTimestamp();
+        $maxTimestamp = $max->getTimestamp();
+        
+        // Create a random timestamp between min and max
+        $randomTimestamp = random_int($minTimestamp, $maxTimestamp);
+        
+        // Return a DateTime object
+        return (new DateTime())->setTimestamp($randomTimestamp);
+    }
+}

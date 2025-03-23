@@ -32,24 +32,23 @@ final class CartController extends AbstractController
         $session->remove('cart');
         return $this->redirectToRoute("app_cart");
     }
-/**
- * Pour supprimer un produit dans le panier
- * appelée depuis le fichier twg avec la route et l'id du produit à supprimer
- */
-    #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
-    public function remove($id, CartService $cartService): Response
-    {
-        $cartService->remove($id);
-        return $this->redirectToRoute("app_cart");
-    }
 
     #[Route('/cart/validate', name: 'app_cart_validate')]
     public function order(CartService $cartService): Response
     {
         $cartService->cartToOrder();
         //Flash message
-        // $this->addFlash('success', 'Votre commande a bien été confirmée.');
-        // $session->getFlashBag()->add('success', 'L\'opération a réussi !');
+        $this->addFlash('success', 'La commande a bien été validée !');
         return $this->redirectToRoute("app_cart");
     }
+
+     // /**
+    //  * Delete a product from cart
+    //  */
+    // #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
+    // public function remove($id, CartService $cartService): Response
+    // {
+    //     $cartService->remove($id);
+    //     return $this->redirectToRoute("app_cart");
+    // }
 }

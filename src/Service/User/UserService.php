@@ -2,16 +2,11 @@
 
 namespace App\Service\User;
 
-use App\Entity\User;
-use App\Form\RegistrationType;
 use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService {
 
@@ -19,8 +14,6 @@ class UserService {
     private $orderRepository;
     private $orderDetailRepository;
     private $productRepository;
-    private $request;
-    private $userPasswordHasher;
     private $em;
 
     public function __construct(
@@ -28,8 +21,6 @@ class UserService {
         OrderRepository $orderRepository,
         OrderDetailRepository $orderDetailRepository,
         ProductRepository $productRepository,
-        Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $em,
         )
     {
@@ -37,13 +28,11 @@ class UserService {
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
         $this->productRepository = $productRepository;
-        $this->request = $request;
-        $this->userPasswordHasher = $userPasswordHasher;
         $this->em = $em;
     }
 
-    public function account(){
-
+    public function account()
+    {
         $user = $this->security->getUser();
         $orders = $this->orderRepository->findBy(['client' => $user]);
         $items = [];
@@ -70,26 +59,7 @@ class UserService {
             ];
         }
         return $items;
-
     }
-
-    // public function registration() {
-    //     $user = new User();
-
-    //     $form = $this->createForm(RegistrationType::class, $user);
-    //     $form->handleRequest($this->request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $plainPassword = $form->get('password')->getData();
-    //         $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
-    //         $user->setRoles(['ROLE_USER']);
-    //         $this->em->persist($user);
-    //         $this->em->flush();
-
-    //         return $this->redirectToRoute('app_login');
-    //     }
-    //     return $form;
-    // }
 
     public function accountDelete()
     {
@@ -99,21 +69,15 @@ class UserService {
     }
 
     public function apiAccess(int $api)
-{
-    $user = $this->security->getUser();
-    if ($api == 0){
-        $user->setRoles(['ROLE_USER']);
-    } elseif ($api == 1){
-        $user->setRoles(['ROLE_API']);
+    {
+        $user = $this->security->getUser();
+        if ($api == 0){
+            $user->setRoles(['ROLE_USER']);
+        } elseif ($api == 1){
+            $user->setRoles(['ROLE_API']);
+        }
+        $this->em->persist($user);
+        $this->em->flush();
     }
-    $this->em->persist($user);
-    $this->em->flush();
-}
-
-
-
-
-
-
 
 }

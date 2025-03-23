@@ -20,27 +20,26 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            pattern: ^/(?!api) # to indicate to main to do not deal with api routes
             lazy: true
             provider: app_user_provider
-            #BB
+            
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-            #BBend
-
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-        #BB
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-        #BBend
+
         login:
             pattern: ^/api/login
             stateless: true
@@ -58,15 +57,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/user, roles: ROLE_USER }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/login, roles: PUBLIC_ACCES }
+        - { path: ^/api, roles: ROLE_API }
         - { path: ^/registration, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/home, roles: PUBLIC_ACCESS } 
         - { path: ^/product, roles: PUBLIC_ACCESS }
         - { path: ^/user, roles: ROLE_USER } 
         - { path: ^/cart, roles: ROLE_USER } 
-        - { path: ^/api, roles: ROLE_API }       
+     
 
 when@test:
     security:

@@ -4,7 +4,12 @@
 
 {% block body %}
 <main>
-    <div class="container">
+    {% if app.user %}
+        <div>
+            Bienvenue {{ app.user.firstName }} !
+        </div>
+    {% endif %}
+    <div class="container-1">
         <div class="container-half container-welcome">
             <div class="welcome">
                 <div class="welcome-title">

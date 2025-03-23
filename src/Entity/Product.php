@@ -56,7 +56,6 @@ class Product
 
     public function __construct()
     {
-   //     $this->orders = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
     }
 
@@ -137,33 +136,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-   /* public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): static
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            $order->removeProduct($this);
-        }
-
-        return $this;
-    }
-*/
     /**
      * @return Collection<int, OrderDetail>
      */

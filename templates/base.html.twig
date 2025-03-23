@@ -7,6 +7,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
         {% endblock %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
         {#{% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
@@ -25,34 +26,26 @@
                         <a href="{{ path('app_home') }}">Nos produits</a>
                     </div>
 
-                    {% if app.user is same as null %}
-                        <div class="nav-2-2">
-                            <div class="nav-2-2-1"><a href="{{ path('app_registration') }}">Inscription</a></div>
-                            <div class="nav-2-2-1"><a href="{{ path('app_login') }}">Connexion</a></div>
-                        </div>  
+                    {% if app.user %}
+                    <div class="nav-2-2">
+                        <div class="nav-2-2-1"><a href="{{ path('app_cart') }}">Mon panier</a></div>
+                        <div class="nav-2-2-1"><a href="{{ path('app_account') }}">Mon compte</a></div>
+                        <div class="nav-2-2-1"><a href="{{ path('app_logout') }}">Déconnexion</a></div>
+                    </div> 
                     {% else %}
-                        <div class="nav-2-2">
-                            <div class="nav-2-2-1"><a href="{{ path('app_cart') }}">Mon panier</a></div>
-                            <div class="nav-2-2-1"><a href="{{ path('app_account') }}">Mon compte</a></div>
-                            <div class="nav-2-2-1"><a href="{{ path('app_logout') }}">Déconnexion</a></div>
-                        </div>
+                    <div class="nav-2-2">
+                        <div class="nav-2-2-1"><a href="{{ path('app_registration') }}">Inscription</a></div>
+                        <div class="nav-2-2-1"><a href="{{ path('app_login') }}">Connexion</a></div>
+                    </div> 
                     {% endif %}
-           
+                    
                 </div>
             </nav>
         </header>
                 
         {% block body %}
-
-
-       {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        
-        
         {% endblock %}
+
         <footer>
             <div class="footer">
                 <div class="footer-text">

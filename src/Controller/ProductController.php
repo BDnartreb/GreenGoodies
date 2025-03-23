@@ -12,19 +12,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductController extends AbstractController
 {
-    #[Route('/home', name: 'app_home', methods: ['GET'])]
+    #[Route('/home', name: 'app_home')]
     public function home(ProductRepository $productRepository): Response
     {
         $product = $productRepository->findAll();
 
         return $this->render('/product/home.html.twig', [
-            'controller_name' => 'ProductController',
             'products' => $product,
-            //$_SESSION = session->getOrder session order
         ]);
     }
 
-    #[Route('/product/{id}', name: 'app_product', methods: ['GET'])]
+    #[Route('/product/{id}', name: 'app_product')]
     public function product(Product $product): Response
     {
         return $this->render('/product/product.html.twig', [

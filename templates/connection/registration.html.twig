@@ -4,7 +4,7 @@
 
 {% block body %}
 <main>
-    <div class="container">
+    <div class="container-1">
         <div class="container-half container-image">
             <img src="{{ asset('images/Registration_Lite.png') }}" alt="Image de la page d'enregistrement" />
         </div>
@@ -16,7 +16,8 @@
                     {{ form_row(form.lastName) }}
                     {{ form_row(form.firstName) }}
                     {{ form_row(form.email) }}
-                    {{ form_row(form.password) }}
+                    {{ form_row(form.password.first) }}
+                    {{ form_row(form.password.second) }}
                     <div>
                         <label>
                             {{ form_widget(form.CGU) }} <!-- Case à cocher -->
@@ -27,9 +28,9 @@
                     <div class="button">
                         <button class="button-submit">S'inscrire</button>
                     </div>
-                {{ form_end(form) }}
+                {{ form_end(form) }}            
                 <a href=" {{ path('app_login') }}" alt="S'inscrire">J'ai déjà un compte? Se connecter</a>
-        </div>
+         </div>
     </div>
 </main>  
 {% endblock %}
