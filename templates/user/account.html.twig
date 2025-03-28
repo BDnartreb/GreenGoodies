@@ -64,8 +64,8 @@
         </div>
         <div class="container-account">        
             <div class="button">
-                <a href="{{ path('app_account_delete') }}">
-                    <button class="button-submit">Supprimer mon compte</button>
+                <a href="{{ path('app_account_delete') }}" onClick="return confirm('Etes vous sûr de vouloir supprimer votre compte ?');">
+                    <button class="button-submit" type="submit">Supprimer mon compte</button>
                 </a>
             </div>
         </div>

@@ -7,9 +7,9 @@ use App\Form\RegistrationType;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -41,6 +41,9 @@ final class UserController extends AbstractController
         ]);
     }
 
+    /**
+    * Display account page
+    */
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
     public function account(UserService $userService): Response
     {
@@ -54,12 +57,10 @@ final class UserController extends AbstractController
     * Delete user account and all data linked
     */
     #[Route('/user/account/delete', name: 'app_account_delete')]
-    public function accountDelete(UserService $userService, Request $request, SessionInterface $session): Response
+    public function accountDelete(UserService $userService, Security $security): Response
     {
         $userService->accountDelete();
-        $session = $request->getSession();
-        
-        $session->invalidate();
+        $security->logout(false); //false for token not required
 
         return $this->redirectToRoute('app_registration');
     }

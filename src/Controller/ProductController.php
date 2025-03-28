@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function home(ProductRepository $productRepository): Response
     {
         $product = $productRepository->findAll();
