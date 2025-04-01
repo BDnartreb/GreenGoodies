@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService {
 
-    private $requestStack;
-    private $productRepository;
-    private $orderRepository;
-    private $em;
-    private $security;
+    protected $requestStack;
+    protected $productRepository;
+    protected $orderRepository;
+    protected $em;
+    protected $security;
 
     public function __construct(
         RequestStack $requestStack,

@@ -10,19 +10,26 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CartController extends AbstractController
 {
+    private $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     #[Route('/cart', name: 'app_cart', methods: ['GET'])]
-    public function getCart(CartService $cartService): Response
+    public function getCart(): Response
     {
         return $this->render('/user/cart.html.twig', [
-            'items' => $cartService->getCart(),
-            'total' => $cartService->getTotal(),
+            'items' => $this->cartService->getCart(),
+            'total' => $this->cartService->getTotal(),
         ]);
     }
 
     #[Route('/cart/add/{id}', name: 'app_cart_add')]
-    public function add($id, CartService $cartService): Response
+    public function add($id): Response
     {
-        $cartService->add($id);
+        $this->cartService->add($id);
         return $this->redirectToRoute("app_cart");
     }
 
@@ -34,9 +41,9 @@ final class CartController extends AbstractController
     }
 
     #[Route('/cart/validate', name: 'app_cart_validate')]
-    public function order(CartService $cartService): Response
+    public function order(): Response
     {
-        $cartService->cartToOrder();
+        $this->cartService->cartToOrder();
         //Flash message
         $this->addFlash('success', 'La commande a bien été validée !');
         return $this->redirectToRoute("app_cart");

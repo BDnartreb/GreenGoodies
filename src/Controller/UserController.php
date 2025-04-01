@@ -15,6 +15,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class UserController extends AbstractController
 {
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     #[Route('/registration', name: 'app_registration')]
     public function registration(
         Request $request,
@@ -45,10 +52,10 @@ final class UserController extends AbstractController
     * Display account page
     */
     #[Route('/user/account', name: 'app_account', methods: ['GET'])]
-    public function account(UserService $userService): Response
+    public function account(): Response
     {
         return $this->render('/user/account.html.twig', [
-                'items' => $userService->account(),
+                'items' => $this->userService->account(),
                 'user' => $this->getUser(),
             ]);         
     }
@@ -57,9 +64,9 @@ final class UserController extends AbstractController
     * Delete user account and all data linked
     */
     #[Route('/user/account/delete', name: 'app_account_delete')]
-    public function accountDelete(UserService $userService, Security $security): Response
+    public function accountDelete(Security $security): Response
     {
-        $userService->accountDelete();
+        $this->userService->accountDelete();
         $security->logout(false); //false for token not required
 
         return $this->redirectToRoute('app_registration');
@@ -69,9 +76,9 @@ final class UserController extends AbstractController
     * Activate or desactivate apiaccess
     */
     #[Route(path: '/user/apiaccess/{api}', name: 'app_apiaccess')]
-    public function apiAccess(UserService $userService, int $api) : Response
+    public function apiAccess(int $api) : Response
     {
-        $userService->apiAccess($api);
+        $this->userService->apiAccess($api);
         return $this->redirectToRoute('app_account');
     }
 }
